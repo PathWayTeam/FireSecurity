@@ -1,5 +1,6 @@
 package com.jvmdevelop.mvp.config;
 
+import com.jvmdevelop.mvp.service.UserDetailsServiceImpl;
 import com.jvmdevelop.mvp.utils.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import com.jvmdevelop.mvp.repo.UserRepo;
 
 @EnableWebSecurity
 @Configuration
@@ -22,6 +24,7 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final AuthenticationManager authenticationManager;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {

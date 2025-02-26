@@ -10,6 +10,7 @@ import com.jvmdevelop.mvp.service.UserService;
 import com.jvmdevelop.mvp.utils.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class ChatController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/createChat")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createChat(@RequestHeader("Authorization") String authHeader,
                                         @RequestBody CreateChatRequest request) {
         String token = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : authHeader;
@@ -61,6 +63,7 @@ public class ChatController {
     }
 
     @PostMapping("/getCurrentChat")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> getCurrentChat(@RequestHeader("Authorization") String authHeader,
                                             @RequestBody GetCurrentChatRequest request) {
         String token = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : authHeader;
@@ -88,6 +91,7 @@ public class ChatController {
     }
 
     @PostMapping("/addUserToChat")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> addUserToChat(@RequestBody AddUserToChatRequest request) {
         Chat chat = chatService.findById(request.getChatId());
         if (chat == null) {
@@ -102,6 +106,7 @@ public class ChatController {
     }
 
     @PostMapping("/sendMessage")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> sendMessage(@RequestHeader("Authorization") String authHeader,
                                          @RequestBody SendMessageRequest request) {
         String token = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : authHeader;
@@ -128,6 +133,7 @@ public class ChatController {
     }
 
     @PostMapping("/getChatMessages")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> getChatMessages(@RequestBody GetChatMessagesRequest request) {
         Chat chat = chatService.findById(request.getChatId());
         if (chat == null) {
@@ -138,6 +144,7 @@ public class ChatController {
     }
 
     @PostMapping("/editMessage")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> editMessage(@RequestHeader("Authorization") String authHeader,
                                          @RequestBody EditMessageRequest request) {
         String token = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : authHeader;
@@ -160,6 +167,7 @@ public class ChatController {
     }
 
     @PostMapping("/deleteMessage")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> deleteMessage(@RequestHeader("Authorization") String authHeader,
                                            @RequestBody DeleteMessageRequest request) {
         String token = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : authHeader;

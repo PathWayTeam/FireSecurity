@@ -22,6 +22,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+
     @PostMapping("/register")
     public String register(@RequestBody UserDto user) {
         String hashPassword = passwordEncoder.encode(user.getPassword());
@@ -30,7 +31,7 @@ public class AuthController {
                 .email(user.getEmail())
                 .password(hashPassword)
                 .description(user.getDescription())
-                .role(user.getRole())
+                .role("ROLE_USER")
                 .avatarUrl(user.getAvatarUrl())
                 .build());
 
@@ -42,6 +43,7 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return JwtUtil.generateToken(userDetails);
     }
+
     @PostMapping("/login")
     public String login(@RequestBody UserDto user) {
         Authentication authentication = authenticationManager

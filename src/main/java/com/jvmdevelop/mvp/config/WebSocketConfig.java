@@ -1,6 +1,7 @@
 package com.jvmdevelop.mvp.config;
 
-import com.jvmdevelop.strife.controller.WebRtcHandler;
+import com.jvmdevelop.mvp.websocket.ChatWebSocketHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -9,14 +10,14 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
-    private final WebRtcHandler webRtcHandler;
 
-    public WebSocketConfig(WebRtcHandler webRtcHandler) {
-        this.webRtcHandler = webRtcHandler;
+    @Bean
+    public ChatWebSocketHandler chatWebSocketHandler() {
+        return new ChatWebSocketHandler();
     }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webRtcHandler, "/webrtc/{channel}/{user}").setAllowedOrigins("*");
+        registry.addHandler(chatWebSocketHandler(), "/ws/chat").setAllowedOrigins("*");
     }
 }
