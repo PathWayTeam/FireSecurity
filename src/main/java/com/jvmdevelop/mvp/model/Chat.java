@@ -23,7 +23,7 @@ public class Chat {
     @Column(name = "is_tet_a_tet")
     private Boolean isTetATet = false;
 
-    private Long recipientId; // Можно сделать отношение к User, если нужно
+    private Long recipientId;
 
     @ManyToMany
     @JoinTable(

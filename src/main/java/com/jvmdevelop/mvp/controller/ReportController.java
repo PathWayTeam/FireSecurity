@@ -1,5 +1,6 @@
 package com.jvmdevelop.mvp.controller;
 
+import com.jvmdevelop.mvp.dto.ReportDto;
 import com.jvmdevelop.mvp.model.Report;
 import com.jvmdevelop.mvp.service.ReportService;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class ReportController {
     private final ReportService reportService;
 
     @PostMapping("/send")
-    public ResponseEntity<Report> send(@RequestBody Report report) {
+    public ResponseEntity<Report> send(@RequestBody ReportDto report) {
         return ResponseEntity.ok(reportService.add(report));
     }
 }

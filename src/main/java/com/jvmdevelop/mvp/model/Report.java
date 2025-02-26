@@ -2,14 +2,16 @@ package com.jvmdevelop.mvp.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table
+@Table(name = "reports")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

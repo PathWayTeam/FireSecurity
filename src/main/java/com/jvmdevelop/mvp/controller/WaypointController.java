@@ -1,5 +1,8 @@
 package com.jvmdevelop.mvp.controller;
 
+import com.jvmdevelop.mvp.dto.ReportDto;
+import com.jvmdevelop.mvp.dto.WaypointDto;
+import com.jvmdevelop.mvp.model.Report;
 import com.jvmdevelop.mvp.model.Waypoint;
 import com.jvmdevelop.mvp.service.WaypointService;
 import lombok.AllArgsConstructor;
@@ -13,7 +16,7 @@ public class WaypointController {
     private final WaypointService waypointService;
 
     @PostMapping("/add")
-    public ResponseEntity<Waypoint> add(@RequestBody Waypoint waypoint){
+    public ResponseEntity<Waypoint> add(@RequestBody WaypointDto waypoint){
         return ResponseEntity.ok(waypointService.add(waypoint));
     }
 
