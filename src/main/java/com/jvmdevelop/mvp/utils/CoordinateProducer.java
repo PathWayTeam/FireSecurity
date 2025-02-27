@@ -2,10 +2,12 @@ package com.jvmdevelop.mvp.utils;
 
 import com.jvmdevelop.mvp.exception.GeoAddressException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 
+@Component
 public class CoordinateProducer {
     private static final String GEO_URL = "https://nominatim.openstreetmap.org/search";
 
