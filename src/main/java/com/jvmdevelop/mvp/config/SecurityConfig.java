@@ -17,24 +17,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
-import com.jvmdevelop.mvp.repo.UserRepo;
+
+import java.util.List;
 
 @EnableWebSecurity
 @Configuration
 @AllArgsConstructor
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
-    private final AuthenticationManager authenticationManager;
-
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
         httpSecurity.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/v1/**").permitAll()
+                        auth.requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers("/api/v1/waypoints/**").permitAll()
+                                .requestMatchers("api/v1/reports/**").permitAll()
+                                .requestMatchers("/api/v1/chats/**").permitAll()
+                                .requestMatchers("/api/v1/users/**").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .authenticationManager(authenticationManager)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, SecurityContextPersistenceFilter.class);
 
@@ -42,16 +44,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) throws Exception {
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
-        return new ProviderManager(provider);
+        return new ProviderManager(List.of(provider));
     }
 
     @Bean
