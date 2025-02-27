@@ -2,25 +2,25 @@ package com.jvmdevelop.mvp.service;
 
 import com.jvmdevelop.mvp.dto.ReportDto;
 import com.jvmdevelop.mvp.model.Report;
-import com.jvmdevelop.mvp.model.User;
 import com.jvmdevelop.mvp.model.Waypoint;
 import com.jvmdevelop.mvp.repo.ReportRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Service
 @AllArgsConstructor
+@Service
 public class ReportService {
     private final ReportRepo reportRepo;
     private final WaypointService waypointService;
     private final RedisTemplate<String, Object> redisTemplate;
 
     private static final String REPORT_CACHE_PREFIX = "report:";
-    private final List<Report> reports =  getAllReports();
+    private static List<Report> reports ;
 
     public Report findReport(String name) {
         String cacheKey = REPORT_CACHE_PREFIX + name;
@@ -36,7 +36,11 @@ public class ReportService {
     }
 
     public List<Report> getAllReports() {
-        return reportRepo.findAll();
+        if (reports == null) {
+            reports = reportRepo.findAll();
+            return reports;
+        }
+        return reports;
     }
 
     public Report add(ReportDto reportDto) {
