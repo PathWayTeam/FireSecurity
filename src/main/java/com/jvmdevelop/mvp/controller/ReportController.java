@@ -22,6 +22,13 @@ public class ReportController {
         return ResponseEntity.ok(reportService.add(report));
     }
 
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<Report> find(@RequestParam String name){
+        return ResponseEntity.ok(reportService.findReport(name));
+    }
+
+
     @GetMapping("/getAll")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<Report>> all(){

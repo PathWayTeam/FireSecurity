@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class WaypointService {
@@ -24,11 +26,17 @@ public class WaypointService {
 
        return  waypointRepo.save(waypoint);
     }
+
+    public Waypoint find(String name){
+        String coordinate = CoordinateProducer.getCoordinate(name);
+        return waypointRepo.findByCoordinate(coordinate);
+    }
+
     public boolean exist(Long id){
         return userRepo.existsById(id);
     }
-    public Flux<Waypoint> getAll(){
-        return (Flux<Waypoint>) waypointRepo.findAll();
+    public List<Waypoint> getAll(){
+        return waypointRepo.findAll();
     }
 
 }
