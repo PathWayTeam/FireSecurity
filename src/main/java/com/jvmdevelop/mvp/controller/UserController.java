@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> getUserInfo(@PathVariable String username) throws Exception {
+    public ResponseEntity<User> getUserInfo(@PathVariable String username)  {
         return ResponseEntity.ok(userService.getUserInfo(username));
     }
 

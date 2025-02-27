@@ -55,6 +55,9 @@ public class UserService {
         return userFromCache;
     }
 
+    public boolean exists(String name){
+        return userRepo.existsByUsername(name);
+    }
     public User getUserById(Long id) {
         return userRepo.findById(id).orElseThrow(() -> new RuntimeException("No user found with id: " + id));
     }

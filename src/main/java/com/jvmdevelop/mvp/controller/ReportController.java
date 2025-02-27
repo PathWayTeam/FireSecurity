@@ -6,10 +6,9 @@ import com.jvmdevelop.mvp.service.ReportService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -21,5 +20,11 @@ public class ReportController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Report> send(@RequestBody ReportDto report) {
         return ResponseEntity.ok(reportService.add(report));
+    }
+
+    @GetMapping("/getAll")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<Report>> all(){
+        return ResponseEntity.ok(reportService.getAllReports());
     }
 }

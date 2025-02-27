@@ -20,8 +20,8 @@ public class ReportService {
         return reportRepo.findByName(name);
     }
 
-    public Flux<Report> getAllReports() {
-        return (Flux) reportRepo.findAll();
+    public List<Report> getAllReports() {
+        return reportRepo.findAll();
     }
 
     public Report add(ReportDto reportDto) {

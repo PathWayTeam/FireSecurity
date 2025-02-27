@@ -1,6 +1,7 @@
 package com.jvmdevelop.mvp.config;
 
 import com.jvmdevelop.mvp.service.UserDetailsServiceImpl;
+import com.jvmdevelop.mvp.service.UserService;
 import com.jvmdevelop.mvp.utils.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +33,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/v1/**").permitAll()
                                 .anyRequest().authenticated()
-                ).authenticationManager(authenticationManager)
+                )
+                .authenticationManager(authenticationManager)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, SecurityContextPersistenceFilter.class);
 
@@ -53,7 +55,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepo userRepository) {
-        return new UserDetailsServiceImpl(userRepository);
+    public UserDetailsService userDetailsService(UserService userService) {
+        return new UserDetailsServiceImpl(userService);
     }
 }

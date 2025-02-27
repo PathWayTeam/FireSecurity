@@ -5,6 +5,7 @@ import com.jvmdevelop.mvp.model.User;
 import com.jvmdevelop.mvp.service.UserService;
 import com.jvmdevelop.mvp.utils.JwtUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -45,13 +46,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDto user) {
-        Authentication authentication = authenticationManager
-                .authenticate(
-                        new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-                );
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return JwtUtil.generateToken(userDetails);
+    public ResponseEntity login(@RequestBody UserDto user) {
+        if (userService.exists(user.getUsername())) {
+            Authentication authentication = authenticationManager
+                    .authenticate(
+                            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+                    );
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return ResponseEntity.ok(JwtUtil.generateToken(userDetails));
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }
