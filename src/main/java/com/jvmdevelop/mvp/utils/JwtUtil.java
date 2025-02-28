@@ -15,10 +15,7 @@ public class JwtUtil {
     private static String SECRET;
     @Value("${jwt.expiration}")
     private static long EXPIRATION;
-    @Value("${jwt.header}")
-    private static String HEADER;
-    @Value("${jwt.prefix}")
-    private static String PREFIX;
+
 
     public static String generateToken(UserDetails userDetails){
         return Jwts.builder()
@@ -28,6 +25,7 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
+
     public static boolean validateToken(String token){
         try {
             Jwts.parser().setSigningKey(SECRET).build().parseClaimsJws(token);

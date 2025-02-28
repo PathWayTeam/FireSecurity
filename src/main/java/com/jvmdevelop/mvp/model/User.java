@@ -25,7 +25,6 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
     private String description;
     @Column(nullable = false)
     private String role;
@@ -34,7 +33,7 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Chat> chats;
 
-    public User(User user ,String username){
+    public User(User user, String username) {
         this.username = username;
         this.email = user.getEmail();
         this.password = user.getPassword();
